@@ -7,7 +7,7 @@ import {
   momentLocalizer,
 } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { attendanceData } from "../../../../attendance";
+import { TeamsData } from "../../../../team";
 import {
   format,
   parse,
@@ -58,7 +58,15 @@ const AttendanceStatus = () => {
 
   const handleTimeSelect = (time: Date) => {
     setSelectedTime(time);
-    console.log("Selected time:", format(time, "HH:mm"));
+    console.log("Selected time:", moment(time).format("HH:mm"));
+  };
+
+  const handleSubmit = () => {
+    console.log("Submitting attendance:", {
+      status: selectedStatus,
+      time: selectedTime,
+    });
+    // Add your submit logic here
   };
 
   return (
@@ -71,7 +79,7 @@ const AttendanceStatus = () => {
         {/* Status Selection */}
         <div>
           <h4 className="text-sm font-medium text-gray-700 mb-2">Status</h4>
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid gap-3">
             {["Present", "Absent", "Late"].map((status) => (
               <button
                 key={status}
@@ -97,7 +105,9 @@ const AttendanceStatus = () => {
               type="time"
               className="w-full p-2 border border-gray-300 rounded-xl"
               onChange={(e) =>
-                handleTimeSelect(parse(e.target.value, "HH:mm", new Date()))
+                handleTimeSelect(
+                  moment(e.target.value, "HH:mm").toDate() // Convert to Date object
+                )
               }
             />
           </div>
@@ -108,15 +118,9 @@ const AttendanceStatus = () => {
           <button
             id="submit-attendance"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium p-3 rounded-xl transition-colors flex items-center justify-center gap-2"
-            onClick={() =>
-              console.log("Submitting attendance:", {
-                status: selectedStatus,
-                time: selectedTime,
-              })
-            }
+            onClick={handleSubmit}
           >
-            <span>Submit Attendance</span>
-            <ChevronRight className="w-5 h-5" />
+            Submit Attendance
           </button>
         )}
       </div>
@@ -124,70 +128,32 @@ const AttendanceStatus = () => {
   );
 };
 
-const SidePanel = () => (
-  <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-full">
-    <div className="p-6 space-y-6">
-      {/* User Info Section */}
-      <div>
-        <div className="flex items-center gap-2 mb-2">
-          <User className="w-5 h-5 text-blue-500" />
-          <h3 className="font-semibold text-gray-900">Employee</h3>
-        </div>
-        <p className="text-gray-600">John Doe</p>
-      </div>
-
-      {/* Separator */}
-      <div className="h-px bg-gray-200" />
-
-      {/* Time Info */}
-      <div>
-        <div className="flex items-center gap-2 mb-2">
-          <Clock className="w-5 h-5 text-blue-500" />
-          <h3 className="font-semibold text-gray-900">Work Hours</h3>
-        </div>
-        <p className="text-gray-600">9:00 AM - 5:00 PM</p>
-      </div>
-
-      {/* Separator */}
-      <div className="h-px bg-gray-200" />
-
-      {/* Timezone Section */}
-      <div>
-        <div className="flex items-center gap-2 mb-2">
-          <Globe className="w-5 h-5 text-blue-500" />
-          <h3 className="font-semibold text-gray-900">Timezone</h3>
-        </div>
-        <p className="text-gray-600">Asia/Kolkata</p>
-      </div>
-    </div>
-  </div>
-);
-
 // Event Component with Tooltip
-const EventComponent = ({ event }: { event: AttendanceEvent }) => (
+const EventComponent = ({ event }) => (
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger className="w-full h-full">
-        <div className="p-1 text-sm font-medium text-white">
-          {event.status === "present"
-            ? `${format(event.start, "h:mm a")} - ${format(
-                event.end,
-                "h:mm a"
-              )}`
-            : event.status.charAt(0).toUpperCase() + event.status.slice(1)}
+        <div className={`p-1 text-sm font-medium ${
+          event.status === 'present' ? 'text-emerald-100' : 'text-red-100'
+        }`}>
+          {event.status === 'present' ? (
+            <>{moment(event.start).format('h:mm A')} - {moment(event.end).format('h:mm A')}</>
+          ) : (
+            'Absent'
+          )}
         </div>
       </TooltipTrigger>
       <TooltipContent>
-        <p className="font-medium">{event.title}</p>
-        <p className="text-xs">
-          {event.status === "present"
-            ? `${format(event.start, "h:mm a")} - ${format(
-                event.end,
-                "h:mm a"
-              )}`
-            : "Absent"}
-        </p>
-        {event.description && <p className="text-xs">{event.description}</p>}
+        <div className="p-2">
+          <p className="font-medium">{event.title}</p>
+          {event.status === 'present' ? (
+            <p className="text-xs text-emerald-600">
+              Working hours: {moment(event.start).format('h:mm A')} - {moment(event.end).format('h:mm A')}
+            </p>
+          ) : (
+            <p className="text-xs text-red-600">Absent for the day</p>
+          )}
+        </div>
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>
@@ -199,22 +165,13 @@ const MyAttendanceData: React.FC<AttendanceProps> = ({
   onDateRangeChange,
   events,
 }) => {
-  const router = useRouter(); // Initialize the router
   const calendarRef = useRef<any>(null);
-  const [activeTab, setActiveTab] = useState("my-attendance");
 
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.handleViewChange("month");
     }
   }, []);
-
-  useEffect(() => {
-    // Redirect to /attendance/team/reportees when the activeTab is "team-attendance"
-    if (activeTab === "team-attendance") {
-      router.push("/attendance/team/reportees");
-    }
-  }, [activeTab, router]);
 
   const handleRangeChange = (
     range: Date[] | { start: Date; end: Date },
@@ -248,52 +205,25 @@ const MyAttendanceData: React.FC<AttendanceProps> = ({
     return { style: { backgroundColor } };
   };
 
-  // const getFilteredEvents = () => {
-  //   if (activeTab === "team-attendance") {
-  //     return events.map(event => ({
-  //       ...event,
-  //       title: `${event.title} (Team Member)`,
-  //     }));
-  //   }
-  //   return events;
-  // };
-
   return (
     <div className="p-6">
-      
-
-      <div className="grid grid-cols-12 gap-6 w-full mx-auto">
-        {/* Side Panel */}
-        <div className="col-span-2">
-          <SidePanel />
-        </div>
-
-        {/* Calendar and Attendance Status */}
-        <div className="col-span-10 grid grid-cols-12 gap-6">
-          {/* Calendar */}
-          <div className="col-span-10 bg-white rounded-lg shadow-sm border border-gray-200">
-            <div className="p-6">
-              <Calendar
-                localizer={mLocalizer}
-                events={events}
-                defaultView="month"
-                style={{ height: 500 }}
-                eventPropGetter={eventStyleGetter}
-                components={{
-                  event: EventComponent,
-                }}
-                onView={(view) => {
-                  if (currentView !== view) onViewChange(view);
-                }}
-                onRangeChange={handleRangeChange}
-              />
-            </div>
-          </div>
-
-          {/* Attendance Status Section */}
-          <div className="col-span-2">
-            <AttendanceStatus />
-          </div>
+      {/* Calendar */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="p-6">
+          <Calendar
+            localizer={mLocalizer}
+            events={events}
+            defaultView="month"
+            style={{ height: 700 }}
+            eventPropGetter={eventStyleGetter}
+            components={{
+              event: EventComponent,
+            }}
+            onView={(view) => {
+              if (currentView !== view) onViewChange(view);
+            }}
+            onRangeChange={handleRangeChange}
+          />
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ export const contraints = [
   {
     id: "1",
     name: "Home",
-    url: "/home",
+    url: "/",
     userEventName: "HomeEvent",
     icon: House,
   },

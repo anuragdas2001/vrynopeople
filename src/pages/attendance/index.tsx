@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MyAttendanceData from "./mydata";
 import TeamAttendance from "./team/reportees/[[...index]]";
-import { attendanceData } from "../../../attendance";
+import { TeamsData } from "../../../team";
 
 type TabValue = "my-attendance" | "team-attendance";
 
@@ -15,16 +15,23 @@ const AttendanceIndexPage = () => {
   const handleTabChange = (newTab: TabValue) => {
     setActiveTab(newTab);
     // Update URL without the full path, just the query parameter
-    router.push({
-      pathname: router.pathname,
-      query: { tab: newTab }
-    }, undefined, { shallow: true });
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { tab: newTab },
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   // Effect to sync URL with tab state on initial load
   useEffect(() => {
     const tabFromUrl = router.query.tab as TabValue;
-    if (tabFromUrl && (tabFromUrl === "my-attendance" || tabFromUrl === "team-attendance")) {
+    if (
+      tabFromUrl &&
+      (tabFromUrl === "my-attendance" || tabFromUrl === "team-attendance")
+    ) {
       setActiveTab(tabFromUrl);
     } else {
       // Set default tab if none or invalid tab in URL
@@ -64,7 +71,7 @@ const AttendanceIndexPage = () => {
         </TabsList>
 
         <TabsContent value="my-attendance" className="mt-4">
-          <MyAttendanceData events={attendanceData} />
+          <MyAttendanceData events={TeamsData} />
         </TabsContent>
 
         <TabsContent value="team-attendance" className="mt-4">
