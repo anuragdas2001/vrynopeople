@@ -133,22 +133,28 @@ const EventComponent = ({ event }) => (
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger className="w-full h-full">
-        <div className={`p-1 text-sm font-medium ${
-          event.status === 'present' ? 'text-emerald-100' : 'text-red-100'
-        }`}>
-          {event.status === 'present' ? (
-            <>{moment(event.start).format('h:mm A')} - {moment(event.end).format('h:mm A')}</>
+        <div
+          className={`p-1 text-sm font-medium ${
+            event.status === "present" ? "text-emerald-100" : "text-red-100"
+          }`}
+        >
+          {event.status === "present" ? (
+            <>
+              {moment(event.start).format("h:mm A")} -{" "}
+              {moment(event.end).format("h:mm A")}
+            </>
           ) : (
-            'Absent'
+            "Absent"
           )}
         </div>
       </TooltipTrigger>
       <TooltipContent>
         <div className="p-2">
           <p className="font-medium">{event.title}</p>
-          {event.status === 'present' ? (
+          {event.status === "present" ? (
             <p className="text-xs text-emerald-600">
-              Working hours: {moment(event.start).format('h:mm A')} - {moment(event.end).format('h:mm A')}
+              Working hours: {moment(event.start).format("h:mm A")} -{" "}
+              {moment(event.end).format("h:mm A")}
             </p>
           ) : (
             <p className="text-xs text-red-600">Absent for the day</p>
@@ -214,13 +220,14 @@ const MyAttendanceData: React.FC<AttendanceProps> = ({
             localizer={mLocalizer}
             events={events}
             defaultView="month"
+            view={currentView}
             style={{ height: 700 }}
             eventPropGetter={eventStyleGetter}
             components={{
               event: EventComponent,
             }}
             onView={(view) => {
-              if (currentView !== view) onViewChange(view);
+              if (currentView !== view) onViewChange(view); // This will now work
             }}
             onRangeChange={handleRangeChange}
           />

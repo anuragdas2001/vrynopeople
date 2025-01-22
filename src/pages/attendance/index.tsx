@@ -10,11 +10,11 @@ type TabValue = "my-attendance" | "team-attendance";
 const AttendanceIndexPage = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabValue>("my-attendance");
+  const [currentView, setCurrentView] = useState<string>("month");
 
   // Simplified handleTabChange that just updates the state
   const handleTabChange = (newTab: TabValue) => {
     setActiveTab(newTab);
-    // Update URL without the full path, just the query parameter
     router.push(
       {
         pathname: router.pathname,
@@ -23,6 +23,11 @@ const AttendanceIndexPage = () => {
       undefined,
       { shallow: true }
     );
+  };
+
+  const handleViewChange = (view: string) => {
+    console.log("View changed to:", view);
+    setCurrentView(view);
   };
 
   // Effect to sync URL with tab state on initial load
@@ -34,10 +39,9 @@ const AttendanceIndexPage = () => {
     ) {
       setActiveTab(tabFromUrl);
     } else {
-      // Set default tab if none or invalid tab in URL
       handleTabChange("my-attendance");
     }
-  }, [router.isReady]); // Only run when router is ready
+  }, [router.isReady]);
 
   return (
     <div className="p-6">
@@ -71,7 +75,12 @@ const AttendanceIndexPage = () => {
         </TabsList>
 
         <TabsContent value="my-attendance" className="mt-4">
-          <MyAttendanceData events={TeamsData} />
+          <MyAttendanceData
+            currentView={currentView}
+            onViewChange={handleViewChange}
+            onDateRangeChange={() => {}}
+            events={TeamsData}
+          />
         </TabsContent>
 
         <TabsContent value="team-attendance" className="mt-4">
