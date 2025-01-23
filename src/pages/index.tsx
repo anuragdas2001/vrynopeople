@@ -9,8 +9,9 @@ import Tasks from "@/components/Task";
 import Payroll from "@/components/Payroll";
 import Announcements from "@/components/Announcements";
 import QuickStats from "@/components/QuickStats";
+import Timeline from "@/components/Timeline";
 // Priority Badge Component
-
+import Greetings from "@/components/Greetings";
 const Home = () => {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
   const [checkInTime, setCheckInTime] = useState(null);
@@ -74,15 +75,12 @@ const Home = () => {
   return (
     <div className="min-h-screen  p-6">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Good Evening, Anurag Das
-        </h1>
-        <p className="text-gray-600">Have a productive day!</p>
-      </div>
-
+      <Greetings />
+      {/* Timeline */}
+      <Timeline />
       {/* Quick Stats */}
       <QuickStats />
+
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column */}
