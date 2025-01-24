@@ -1,16 +1,18 @@
-import React from 'react';
-import { ChevronRight } from 'lucide-react';
+import React from "react";
+import { ChevronRight } from "lucide-react";
+import { settingsData } from "../../settings";
 
-const SettingsSidebar = ({ tabs, activeTab, onTabChange }) => {
+const SettingsSidebar = ({ activeTab, onTabChange }) => {
   return (
-    <div className="w-64 flex-shrink-0 bg-white shadow-md">
+    <div className="w-64  flex-shrink-0 bg-white shadow-md">
       <div className="p-6">
         <h1 className="text-2xl font-semibold text-gray-900">Settings</h1>
         <p className="text-sm text-gray-500 mt-1">Manage your preferences</p>
       </div>
       <nav className="space-y-1 px-4">
-        {tabs.map((item) => {
+        {settingsData.map((item) => {
           const isActive = activeTab === item.id;
+          const Icon = item.icon;
           return (
             <button
               key={item.id}
@@ -22,7 +24,9 @@ const SettingsSidebar = ({ tabs, activeTab, onTabChange }) => {
                   : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
               }`}
             >
-              <span className="mr-3">{item.icon}</span>
+              <span className="mr-3">
+                <Icon className="h-5 w-5" />
+              </span>
               <span className="ml-3">{item.label}</span>
               <ChevronRight
                 className={`ml-auto h-4 w-4 ${
