@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Users, Clock, Calendar, Award } from "lucide-react";
 import Timesheet from "@/components/Timesheet";
 import Activities from "@/components/Activities";
 import Projects from "@/components/Projects";
@@ -10,19 +8,14 @@ import Payroll from "@/components/Payroll";
 import Announcements from "@/components/Announcements";
 import QuickStats from "@/components/QuickStats";
 import Timeline from "@/components/Timeline";
-// Priority Badge Component
 import Greetings from "@/components/Greetings";
+import Reportees from "@/components/Reportees";
+
 const Home = () => {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
   const [checkInTime, setCheckInTime] = useState(null);
   const [checkOutTime, setCheckOutTime] = useState(null);
   const [timeLog, setTimeLog] = useState([
-    // {
-    //   date: "2025-01-22",
-    //   checkIn: "09:00 AM",
-    //   checkOut: "05:30 PM",
-    //   duration: "8h 30m",
-    // },
     {
       date: "2025-01-21",
       checkIn: "08:45 AM",
@@ -36,6 +29,7 @@ const Home = () => {
       duration: "8h 45m",
     },
   ]);
+
   const handleCheckIn = () => {
     const now = new Date();
     setCheckInTime(now);
@@ -47,7 +41,6 @@ const Home = () => {
     setCheckOutTime(now);
     setIsCheckedIn(false);
 
-    // Add to time log
     const newLog = {
       date: now.toISOString().split("T")[0],
       checkIn:
@@ -62,7 +55,7 @@ const Home = () => {
       duration: calculateDuration(checkInTime, now),
     };
 
-    setTimeLog([newLog, ...timeLog]); // Prepend the new log
+    setTimeLog([newLog, ...timeLog]);
   };
 
   const calculateDuration = (start, end) => {
@@ -73,19 +66,27 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen  p-6">
+    <div className="min-h-screen p-4 sm:p-6 lg:p-8 space-y-6">
       {/* Header */}
       <Greetings />
       {/* Timeline */}
-      <Timeline />
-      {/* Quick Stats */}
-      <QuickStats />
+      <div className="w-full mb-6">
+        <Timeline />
+      </div>
 
-      {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Quick Stats */}
+      <div className="w-full mb-6">
+        <QuickStats />
+      </div>
+      {/* Main Content Grid */}
+      <div className="grid lg:grid-cols-12 gap-6">
         {/* Left Column */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Recent Activities */}
+        <div className="lg:col-span-3 space-y-6">
+          <Reportees />
+          <Payroll />
+        </div>
+        {/* Middle Column */}
+        <div className="lg:col-span-6 space-y-6">
           <Timesheet
             isCheckedIn={isCheckedIn}
             checkInTime={checkInTime}
@@ -94,25 +95,14 @@ const Home = () => {
             handleCheckIn={handleCheckIn}
             handleCheckOut={handleCheckOut}
           />
-
-          <Activities />
-
-          {/* Projects Section */}
-          <Projects />
-
           <Department />
+          <Projects />
         </div>
-
         {/* Right Column */}
-        <div className="space-y-6">
-          {/* Tasks Section */}
-          <Tasks />
-
-          {/* Payroll Section */}
-          <Payroll />
-
-          {/* Announcements Section */}
+        <div className="lg:col-span-3 space-y-6">
           <Announcements />
+          <Activities />
+          <Tasks />
         </div>
       </div>
     </div>

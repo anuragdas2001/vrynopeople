@@ -65,7 +65,7 @@ const Timesheet = ({
                   className="bg-green-600 text-white rounded-xl p-3 flex items-center justify-center space-x-2 hover:bg-green-700 transition-all transform hover:scale-105"
                 >
                   <LogIn className="h-5 w-5" />
-                  <span className="font-semibold text-lg">Check In</span>
+                  <span className="font-semibold text-sm">Check In</span>
                 </button>
               ) : (
                 <button

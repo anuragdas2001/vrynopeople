@@ -11,8 +11,8 @@ const Announcements = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center">
-          <MessageSquare className="mr-2 h-5 w-5" />
-          Announcements
+          <MessageSquare className="mr-2 h-6 w-6" />
+          <span className="text-xl">Announcements</span>
         </CardTitle>
       </CardHeader>
       <CardContent>

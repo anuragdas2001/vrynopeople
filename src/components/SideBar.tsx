@@ -15,22 +15,22 @@ const SideBar = ({ isCollapsed }: { isCollapsed?: boolean }) => {
   }, [isCollapsed]);
 
   // Automatically toggle collapse based on screen size
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setCollapsed(true); // Collapse for small screens
-      } else if (!isCollapsed) {
-        setCollapsed(false); // Expand for larger screens only if `isCollapsed` is not explicitly set
-      }
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (window.innerWidth <= 1024) {
+  //       setCollapsed(true); // Collapse for small screens
+  //     } else if (!isCollapsed) {
+  //       setCollapsed(false); // Expand for larger screens only if `isCollapsed` is not explicitly set
+  //     }
+  //   };
 
-    // Add event listener on resize
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Trigger on initial load
+  //   // Add event listener on resize
+  //   window.addEventListener("resize", handleResize);
+  //   handleResize(); // Trigger on initial load
 
-    // Clean up event listener on component unmount
-    return () => window.removeEventListener("resize", handleResize);
-  }, [isCollapsed]);
+  //   // Clean up event listener on component unmount
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, [isCollapsed]);
 
   // Set active tab based on the route
   useEffect(() => {
@@ -56,7 +56,7 @@ const SideBar = ({ isCollapsed }: { isCollapsed?: boolean }) => {
   return (
     <div
       className={`h-screen ${
-        collapsed ? "w-20" : "w-64"
+        collapsed ? "w-20 " : "w-60 "
       } px-2 py-2 bg-white flex flex-col transition-all duration-300`}
     >
       {/* Logo and Title */}

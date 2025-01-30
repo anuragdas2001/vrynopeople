@@ -5,14 +5,14 @@ import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const noSidebarRoutes = ["/signin", "/signup"]; // Add all routes without sidebar here
+  const noSidebarRoutes = ["/signin"];
 
-  // Check if the current route matches a no-sidebar route
   const showSidebar = !noSidebarRoutes.some((route) =>
     router.pathname.startsWith(route)
   );
-  // Check if the second part of the path matches 'attendance'
+
   const isCollapsed =
+    // router.pathname.startsWith("/") ||
     router.pathname.startsWith("/attendance") ||
     router.pathname.startsWith("/settings");
 
