@@ -1,16 +1,15 @@
 import React from "react";
 import { ChevronRight } from "lucide-react";
-import { settingsData } from "../../settings";
 
-const SettingsSidebar = ({ activeTab, onTabChange }) => {
+const SidePanel = ({ activeTab, onTabChange, Data, Heading, Caption }) => {
   return (
-    <div className="w-64  flex-shrink-0 bg-white shadow-md">
+    <div className="w-64  flex-shrink-0 border-x rounded-2xl">
       <div className="p-6">
-        <h1 className="text-2xl font-semibold text-gray-900">Settings</h1>
-        <p className="text-sm text-gray-500 mt-1">Manage your preferences</p>
+        <h1 className="text-2xl font-semibold text-gray-900">{Heading}</h1>
+        <p className="text-sm text-gray-500 mt-1">{Caption}</p>
       </div>
       <nav className="space-y-1 px-4">
-        {settingsData.map((item) => {
+        {Data.map((item) => {
           const isActive = activeTab === item.id;
           const Icon = item.icon;
           return (
@@ -41,4 +40,4 @@ const SettingsSidebar = ({ activeTab, onTabChange }) => {
   );
 };
 
-export default SettingsSidebar;
+export default SidePanel;

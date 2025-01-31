@@ -14,6 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const isCollapsed =
     // router.pathname.startsWith("/") ||
     router.pathname.startsWith("/attendance") ||
+    router.pathname.startsWith("/onboarding") ||
     router.pathname.startsWith("/settings");
 
   return (

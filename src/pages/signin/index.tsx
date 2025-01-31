@@ -52,30 +52,6 @@ const SignInPage = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Role Selection */}
-              <div className="space-y-2">
-                <Label htmlFor="role">Select Role</Label>
-                <div className="relative">
-                  <Users
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                    size={20}
-                  />
-                  <select
-                    id="role"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    required
-                    className="w-full pl-10 pr-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-white"
-                  >
-                    <option value="" disabled>
-                      Choose a role
-                    </option>
-                    <option value="Admin">Admin</option>
-                    <option value="HR">HR</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Employee">Employee</option>
-                  </select>
-                </div>
-              </div>
 
               {/* Email Input */}
               <div className="space-y-2">

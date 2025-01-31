@@ -56,7 +56,7 @@ const SideBar = ({ isCollapsed }: { isCollapsed?: boolean }) => {
   return (
     <div
       className={`h-screen ${
-        collapsed ? "w-20 " : "w-60 "
+        collapsed ? "w-20 " : "w- "
       } px-2 py-2 bg-white flex flex-col transition-all duration-300`}
     >
       {/* Logo and Title */}

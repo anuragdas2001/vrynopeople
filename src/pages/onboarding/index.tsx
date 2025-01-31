@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/router";
 import {
   Table,
   TableBody,
@@ -29,7 +30,7 @@ import {
 
 const AdminOnboardingDashboard = () => {
   const [filterStatus, setFilterStatus] = useState("all");
-
+  const router = useRouter();
   const employees = [
     {
       name: "Sarah Chen",
@@ -82,7 +83,9 @@ const AdminOnboardingDashboard = () => {
         return `${baseClasses} bg-gray-100 text-gray-800`;
     }
   };
-
+  const handleAddEmployee = () => {
+    router.push("/onboarding/add");
+  };
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto">
@@ -95,7 +98,10 @@ const AdminOnboardingDashboard = () => {
               Manage and track employee onboarding progress
             </p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
+          <Button
+            onClick={handleAddEmployee}
+            className="bg-blue-600 hover:bg-blue-700"
+          >
             + New Employee
           </Button>
         </div>

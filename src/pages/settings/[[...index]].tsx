@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { settingsData } from "../../../settings";
-
-import SettingsSidebar from "@/components/Sidepanel";
 import SettingsContent from "@/components/SettingsContent";
+import SidePanel from "@/components/Sidepanel";
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("general");
   const [layout, setLayout] = useState("list");
@@ -43,7 +42,13 @@ const Settings = () => {
 
   return (
     <div className="min-h-screen flex">
-      <SettingsSidebar activeTab={activeTab} onTabChange={handleTabChange} />
+      <SidePanel
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        Data={settingsData}
+        Heading="Settings"
+        Caption="Manage your preferences"
+      />
       <SettingsContent
         activeTab={activeTab}
         layout={layout}

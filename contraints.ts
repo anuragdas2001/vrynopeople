@@ -35,18 +35,18 @@ export const contraints = [
     userEventName: "AttendanceEvent",
     icon: CalendarCheck,
   },
-  {
-    id: "5",
-    name: "Time Tracker",
-    url: "/time-tracker",
-    userEventName: "TimeTrackerEvent",
-    icon: Hourglass,
-  },
-  {
-    id: "6",
-    name: "Performance",
-    url: "/performance",
-    userEventName: "PerformanceEvent",
-    icon: Trophy,
-  },
+  // {
+  //   id: "5",
+  //   name: "Time Tracker",
+  //   url: "/time-tracker",
+  //   userEventName: "TimeTrackerEvent",
+  //   icon: Hourglass,
+  // },
+  // {
+  //   id: "6",
+  //   name: "Performance",
+  //   url: "/performance",
+  //   userEventName: "PerformanceEvent",
+  //   icon: Trophy,
+  // },
 ];
