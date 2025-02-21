@@ -32,19 +32,21 @@ const Projects = () => {
     },
   ];
   const PriorityBadge = ({ priority }: { priority: string }) => {
-    const colors = {
+    const colors: Record<string, string> = {
       High: "bg-red-100 text-red-800",
       Medium: "bg-yellow-100 text-yellow-800",
       Low: "bg-green-100 text-green-800",
     };
+  
     return (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-medium ${colors[priority]}`}
+        className={`px-2 py-1 rounded-full text-xs font-medium ${colors[priority] || "bg-gray-100 text-gray-800"}`}
       >
         {priority}
       </span>
     );
   };
+  
   return (
     <Card>
       <CardHeader>

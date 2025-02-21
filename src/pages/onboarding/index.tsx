@@ -70,7 +70,7 @@ const AdminOnboardingDashboard = () => {
     },
   ];
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status:string) => {
     const baseClasses = "px-2 py-1 rounded-full text-xs font-medium";
     switch (status) {
       case "completed":

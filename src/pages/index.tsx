@@ -13,8 +13,8 @@ import Reportees from "@/components/Reportees";
 
 const Home = () => {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
-  const [checkInTime, setCheckInTime] = useState(null);
-  const [checkOutTime, setCheckOutTime] = useState(null);
+  const [checkInTime, setCheckInTime] = useState<Date | undefined>();
+  const [checkOutTime, setCheckOutTime] = useState<Date | undefined>();
   const [timeLog, setTimeLog] = useState([
     {
       date: "2025-01-21",
@@ -52,13 +52,13 @@ const Home = () => {
         hour: "2-digit",
         minute: "2-digit",
       }),
-      duration: calculateDuration(checkInTime, now),
+      duration: calculateDuration(checkInTime),
     };
 
     setTimeLog([newLog, ...timeLog]);
   };
 
-  const calculateDuration = (start, end) => {
+  const calculateDuration = ({ start, end }:any) => {
     const diff = Math.abs(end - start);
     const hours = Math.floor(diff / 3600000);
     const minutes = Math.floor((diff % 3600000) / 60000);

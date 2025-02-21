@@ -28,12 +28,17 @@ const Tasks = () => {
       assignedTo: "Emma S.",
     },
   ];
-  const PriorityBadge = ({ priority }: { priority: string }) => {
+  const PriorityBadge = ({
+    priority,
+  }: {
+    priority: "High" | "Medium" | "Low";
+  }) => {
     const colors = {
       High: "bg-red-100 text-red-800",
       Medium: "bg-yellow-100 text-yellow-800",
       Low: "bg-green-100 text-green-800",
-    };
+    } as const; // Ensures TypeScript treats it as an immutable object
+
     return (
       <span
         className={`px-2 py-1 rounded-full text-xs font-medium ${colors[priority]}`}
@@ -42,6 +47,7 @@ const Tasks = () => {
       </span>
     );
   };
+
   return (
     <Card>
       <CardHeader>
@@ -61,7 +67,9 @@ const Tasks = () => {
                 <h4 className="font-medium">{task.title}</h4>
                 <p className="text-xs text-gray-500">Due: {task.dueDate}</p>
               </div>
-              <PriorityBadge priority={task.priority} />
+              <PriorityBadge
+                priority={task.priority as "High" | "Medium" | "Low"}
+              />
             </div>
           ))}
         </div>

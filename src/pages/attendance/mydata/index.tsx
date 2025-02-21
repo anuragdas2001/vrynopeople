@@ -31,13 +31,14 @@ const mLocalizer = momentLocalizer(moment);
 
 // Types
 interface AttendanceEvent {
-  id: number;
-  title: string;
-  start: Date;
-  end: Date;
-  status: "present" | "absent" | "late";
-  description?: string;
-  userId?: string;
+  id: string; // The ID of the team member (string type in your data)
+  name: string; // Name of the team member
+  designation: string; // Designation of the team member
+  email: string; // Email of the team member
+  team: string; // Team of the team member
+  status: string; // Status of the team member
+  joinedDate: string; // Date the team member joined
+  attendance: { date: Date; start: Date; end: Date; status: string }[];
 }
 
 interface AttendanceProps {
@@ -129,7 +130,7 @@ const AttendanceStatus = () => {
 };
 
 // Event Component with Tooltip
-const EventComponent = ({ event }) => (
+const EventComponent = ({ event }: any) => (
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger className="w-full h-full">
@@ -181,7 +182,7 @@ const MyAttendanceData: React.FC<AttendanceProps> = ({
 
   const handleRangeChange = (
     range: Date[] | { start: Date; end: Date },
-    view?: View
+    view?: string | undefined
   ) => {
     if (typeof onDateRangeChange === "function") {
       if (Array.isArray(range)) {
@@ -197,7 +198,7 @@ const MyAttendanceData: React.FC<AttendanceProps> = ({
 
   const eventStyleGetter = (event: AttendanceEvent) => {
     let backgroundColor = "#3B82F6"; // default blue
-    switch (event.status) {
+    switch (event?.status) {
       case "present":
         backgroundColor = "#22C55E"; // green
         break;
@@ -220,7 +221,7 @@ const MyAttendanceData: React.FC<AttendanceProps> = ({
             localizer={mLocalizer}
             events={events}
             defaultView="month"
-            view={currentView}
+            view={currentView as any}
             style={{ height: 700 }}
             eventPropGetter={eventStyleGetter}
             components={{

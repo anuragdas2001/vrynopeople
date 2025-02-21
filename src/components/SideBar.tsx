@@ -39,6 +39,10 @@ const SideBar = ({ isCollapsed }: { isCollapsed?: boolean }) => {
   }, [router.pathname]);
 
   const handleTabClick = (url: string) => {
+    // if (url == "organisation" || url == "settings") {
+    //   setActiveTab(url);
+    //   router.push(`${url}/general`);
+    // }
     setActiveTab(url);
     router.push(url);
   };

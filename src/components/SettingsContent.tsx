@@ -11,8 +11,19 @@ import {
   Grid,
   CalendarIcon,
 } from "lucide-react";
-
-const SettingsContent = ({
+interface SettingsContentProps {
+  activeTab: string;
+  layout: string;
+  theme: string;
+  fontSize: string;
+  density: string;
+  onLayoutChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onThemeChange: (theme: string) => void;
+  onFontSizeChange: (fontSize: string) => void;
+  onDensityChange: (density: string) => void;
+  onApplyChanges: () => void;
+}
+const SettingsContent: React.FC<SettingsContentProps> = ({
   activeTab,
   layout,
   theme,

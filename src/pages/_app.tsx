@@ -15,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
     // router.pathname.startsWith("/") ||
     router.pathname.startsWith("/attendance") ||
     router.pathname.startsWith("/onboarding") ||
+    router.pathname.startsWith("/organisation") ||
     router.pathname.startsWith("/settings");
 
   return (

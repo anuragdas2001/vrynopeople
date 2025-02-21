@@ -17,7 +17,7 @@ const SignInPage = () => {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault();
     console.log("Sign In Attempt", { role, email, password, rememberMe });
   };

@@ -25,7 +25,7 @@ const Settings = () => {
     }
   }, [router.isReady, router.query]);
 
-  const handleTabChange = (tabId) => {
+  const handleTabChange = (tabId:any) => {
     setActiveTab(tabId);
     router.push(`/settings/${tabId}`);
   };

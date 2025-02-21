@@ -1,9 +1,31 @@
 import React from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, LucideIcon } from "lucide-react";
 
-const SidePanel = ({ activeTab, onTabChange, Data, Heading, Caption }) => {
+export interface TabItem {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  url: string;
+}
+
+interface SidePanelProps {
+  activeTab: string;
+  onTabChange: (tabId: string) => void;
+  Data: TabItem[];
+  Heading: string;
+  Caption: string;
+}
+
+const SidePanel: React.FC<SidePanelProps> = ({
+  activeTab,
+  onTabChange,
+  Data,
+  Heading,
+  Caption,
+}) => {
+  console.log("Data", Data);
   return (
-    <div className="w-64  flex-shrink-0 border-x rounded-2xl">
+    <div className="w-64 flex-shrink-0 border-x rounded-2xl">
       <div className="p-6">
         <h1 className="text-2xl font-semibold text-gray-900">{Heading}</h1>
         <p className="text-sm text-gray-500 mt-1">{Caption}</p>
@@ -23,9 +45,7 @@ const SidePanel = ({ activeTab, onTabChange, Data, Heading, Caption }) => {
                   : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
               }`}
             >
-              <span className="mr-3">
-                <Icon className="h-5 w-5" />
-              </span>
+              <Icon className="h-5 w-5" />
               <span className="ml-3">{item.label}</span>
               <ChevronRight
                 className={`ml-auto h-4 w-4 ${

@@ -13,12 +13,13 @@ const AttendanceIndexPage = () => {
   const [currentView, setCurrentView] = useState<string>("month");
 
   // Simplified handleTabChange that just updates the state
-  const handleTabChange = (newTab: TabValue) => {
-    setActiveTab(newTab);
+  const handleTabChange = (newTab: string) => {
+    const tab = newTab as TabValue; // Cast string to TabValue
+    setActiveTab(tab);
     router.push(
       {
         pathname: router.pathname,
-        query: { tab: newTab },
+        query: { tab: tab },
       },
       undefined,
       { shallow: true }
@@ -42,7 +43,7 @@ const AttendanceIndexPage = () => {
       handleTabChange("my-attendance");
     }
   }, [router.isReady]);
-
+  console.log("TeamsData",TeamsData)
   return (
     <div className="p-6">
       <div className="flex justify-center flex-col items-center gap-4">

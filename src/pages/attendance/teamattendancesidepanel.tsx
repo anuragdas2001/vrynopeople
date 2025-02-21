@@ -3,11 +3,11 @@ import { Clock, Globe, User } from "lucide-react"; // Import necessary icons
 
 const TeamAttendanceSidePanel = ({
   employee,
-  employees,
+  employees = [], // Default to an empty array
   onEmployeeChange,
 }: {
-  employee: any; // Replace `any` with the proper type from `TeamsData`
-  employees: any[]; // Replace `any[]` with the proper type for the array
+  employee?: { name: string; team: string; status: string };
+  employees?: { id: string; name: string }[]; // Mark `employees` as optional
   onEmployeeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }) => {
   return (
@@ -21,7 +21,7 @@ const TeamAttendanceSidePanel = ({
           </div>
           <select
             className="w-full p-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={employee.name}
+            value={employee?.name || ""}
             onChange={onEmployeeChange}
           >
             {employees.map((emp) => (
@@ -36,13 +36,15 @@ const TeamAttendanceSidePanel = ({
         <div className="h-px bg-gray-200" />
 
         {/* Team Info */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <User className="w-5 h-5 text-blue-500" />
-            <h3 className="font-semibold text-gray-900">Team</h3>
+        {employee && (
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <User className="w-5 h-5 text-blue-500" />
+              <h3 className="font-semibold text-gray-900">Team</h3>
+            </div>
+            <p className="text-gray-600">{employee.team}</p>
           </div>
-          <p className="text-gray-600">{employee.team}</p>
-        </div>
+        )}
 
         {/* Separator */}
         <div className="h-px bg-gray-200" />
@@ -72,19 +74,21 @@ const TeamAttendanceSidePanel = ({
         <div className="h-px bg-gray-200" />
 
         {/* Status */}
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <User className="w-5 h-5 text-blue-500" />
-            <h3 className="font-semibold text-gray-900">Status</h3>
+        {employee && (
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <User className="w-5 h-5 text-blue-500" />
+              <h3 className="font-semibold text-gray-900">Status</h3>
+            </div>
+            <p
+              className={`text-sm ${
+                employee.status === "Active" ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {employee.status}
+            </p>
           </div>
-          <p
-            className={`text-sm ${
-              employee.status === "Active" ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {employee.status}
-          </p>
-        </div>
+        )}
       </div>
     </div>
   );

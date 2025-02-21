@@ -1,4 +1,4 @@
-import { LogOut, Settings } from "lucide-react";
+import { LogOut, Network, Settings } from "lucide-react";
 
 export const AccountActions = [
   {
@@ -10,13 +10,20 @@ export const AccountActions = [
   },
   {
     id: "302",
+    name: "Org",
+    icon: Network,
+    image: null,
+    url: "/organisation/general",
+  },
+  {
+    id: "303",
     name: "Settings",
     icon: Settings,
     image: null,
     url: "/settings/general",
   },
   {
-    id: "303",
+    id: "304",
     name: "Profile",
     icon: null,
     image:

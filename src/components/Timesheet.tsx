@@ -10,8 +10,8 @@ const Timesheet = ({
   handleCheckOut,
 }: {
   isCheckedIn: boolean;
-  checkInTime: Date | null;
-  checkOutTime: Date | null;
+  checkInTime: Date | undefined;
+  checkOutTime: Date | undefined;
   timeLog: {
     date: string;
     checkIn: string;

@@ -3,7 +3,7 @@ import { TeamsData } from "../../team";
 import { Pyramid } from "lucide-react";
 
 const ReporteesList = () => {
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case "active":
         return "bg-green-100 text-green-500 border-green-200";
@@ -20,8 +20,8 @@ const ReporteesList = () => {
   return (
     <div className="border rounded-xl  p-4 space-y-4">
       <div className="flex gap-4 items-center">
-      <Pyramid className="h-8 w-8"/>
-      <h1 className="text-2xl font-bold text-gray-900">My Reportees</h1>
+        <Pyramid className="h-8 w-8" />
+        <h1 className="text-2xl font-bold text-gray-900">My Reportees</h1>
       </div>
 
       <div className="space-y-3">

@@ -87,10 +87,28 @@ const AttendanceStatus = () => {
 const mLocalizer = momentLocalizer(moment);
 
 const TeamAttendance = () => {
-  const [selectedEmployee, setSelectedEmployee] = useState(TeamsData[0]);
+  const [selectedEmployee, setSelectedEmployee] = useState<
+    | {
+        id: string;
+        name: string;
+        designation: string;
+        email: string;
+        team: string;
+        status: string;
+        joinedDate: string;
+        attendance: { date: Date; start: Date; end: Date; status: string }[];
+      }
+    | undefined
+  >(TeamsData?.[0] || undefined);
+
   const [events, setEvents] = useState<any[]>([]);
 
   useEffect(() => {
+    if (!selectedEmployee) {
+      setEvents([]); // Clear events if no employee is selected
+      return;
+    }
+
     // Map the selected employee's attendance to calendar events
     const employeeAttendance = selectedEmployee.attendance.map(
       (attendance) => ({
@@ -105,16 +123,17 @@ const TeamAttendance = () => {
             : "No work hours",
       })
     );
+
     setEvents(employeeAttendance);
   }, [selectedEmployee]);
 
   const handleEmployeeChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const selected = TeamsData.find(
-      (employee) => employee.name === event.target.value
+    const selectedEmp = TeamsData.find(
+      (emp) => emp.name === event.target.value
     );
-    if (selected) setSelectedEmployee(selected);
+    setSelectedEmployee(selectedEmp || undefined);
   };
 
   // Event style getter to customize colors based on attendance status

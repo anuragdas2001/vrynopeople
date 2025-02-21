@@ -19,7 +19,88 @@ import {
   History,
 } from "lucide-react";
 import SidePanel from "@/components/Sidepanel";
+// Basic information interfaces
+interface CandidateDetails {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  dateOfBirth: string;
+  gender: string;
+  aadhaarNumber: string;
+  panNumber: string;
+  uanNumber: string;
+  officialEmail: string;
+}
 
+interface Address {
+  street1: string;
+  street2?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+}
+
+interface AddressDetails {
+  presentAddress: Address;
+  permanentAddress: Address;
+}
+
+interface ProfessionalDetails {
+  department: string;
+  position: string;
+  startDate: string;
+  salary: string;
+  experience: string;
+  sourceOfHire: string;
+  skillSet: string;
+  highestQualification: string;
+  additionalInformation: string;
+  location: string;
+  currentSalary: string;
+  tentativeJoiningDate: string;
+}
+
+interface EducationDetails {
+  degree: string;
+  university: string;
+  graduationYear: string;
+  specialization: string;
+}
+
+interface ExperienceDetails {
+  currentCompany: string;
+  currentRole: string;
+  yearsOfExperience: string;
+  skills: string;
+  previousExperience: string;
+}
+
+// Combined form data interface
+interface FormData {
+  candidate: CandidateDetails;
+  address: AddressDetails;
+  professional: ProfessionalDetails;
+  education: EducationDetails;
+  experience: ExperienceDetails;
+}
+
+// Navigation type
+interface NavigationItem {
+  id: keyof typeof FormSections;
+  label: string;
+  icon: React.ComponentType;
+}
+
+// Form sections enum
+// enum FormSections {
+//   CANDIDATE = "candidate",
+//   ADDRESS = "address",
+//   PROFESSIONAL = "professional",
+//   EDUCATION = "education",
+//   EXPERIENCE = "experience"
+// }
 const FormSections = {
   CANDIDATE: "candidate",
   ADDRESS: "address",
@@ -43,6 +124,8 @@ const navigationData = [
 const EmployeeForm = () => {
   const [activeTab, setActiveTab] = useState(FormSections.CANDIDATE);
   const [isSameAsPresent, setIsSameAsPresent] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+
   const [formData, setFormData] = useState({
     // Candidate Details
     firstName: "",
@@ -53,7 +136,8 @@ const EmployeeForm = () => {
     gender: "",
 
     // Address Details
-    street: "",
+    street1: "",
+    street2: "",
     city: "",
     state: "",
     zipCode: "",
@@ -64,7 +148,14 @@ const EmployeeForm = () => {
     position: "",
     startDate: "",
     salary: "",
-
+    experince: "",
+    sourceOfHiring: "",
+    skills: "",
+    highestQualification: "",
+    additionalInformation: "",
+    location: "",
+    currentSalary: "",
+    tentativeJoiningDate: "",
     // Education
     degree: "",
     university: "",
@@ -75,42 +166,42 @@ const EmployeeForm = () => {
     currentCompany: "",
     currentRole: "",
     yearsOfExperience: "",
-    skills: "",
     previousExperience: "",
   });
   const [professionalData, setprofessionalData] = useState({
-    department: '',
-    position: '',
-    startDate: '',
-    salary: '',
-    experience: '',
-    sourceOfHire: '',
-    skillSet: '',
-    highestQualification: '',
-    additionalInformation: '',
-    location: '',
-    currentSalary: '',
-    tentativeJoiningDate: '',
+    department: "",
+    position: "",
+    startDate: "",
+    salary: "",
+    experience: "",
+    sourceOfHire: "",
+    skillSet: "",
+    highestQualification: "",
+    additionalInformation: "",
+    location: "",
+    currentSalary: "",
+    tentativeJoiningDate: "",
   });
-  
-  const handleProfessionalChange = (event) => {
+
+  const handleProfessionalChange = (value: string) => {
     setprofessionalData({
-      ...formData,
-      [event.target.name]: event.target.value,
+      ...professionalData,
+      department: value, // Update only the department key
     });
   };
-  const handleChange = (e) => {
+
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
-  const handleSameAsPresentChange = (e) => {
+  const handleSameAsPresentChange = (e: any) => {
     setIsSameAsPresent(e.target.checked);
 
     if (e.target.checked) {
-      setFormData((prev) => ({
+      setFormData((prev: any) => ({
         ...prev,
         permanentStreet1: prev.presentStreet1,
         permanentStreet2: prev.presentStreet2,
@@ -255,7 +346,7 @@ const EmployeeForm = () => {
               <Input
                 id="presentStreet1"
                 name="presentStreet1"
-                value={formData.presentStreet1}
+                value={formData.street1}
                 onChange={handleChange}
                 required
                 placeholder="Address line 1"
@@ -265,7 +356,7 @@ const EmployeeForm = () => {
               <Input
                 id="presentStreet2"
                 name="presentStreet2"
-                value={formData.presentStreet2}
+                value={formData.street2}
                 onChange={handleChange}
                 placeholder="Address line 2"
               />
@@ -275,7 +366,7 @@ const EmployeeForm = () => {
               <Input
                 id="presentCity"
                 name="presentCity"
-                value={formData.presentCity}
+                value={formData.city}
                 onChange={handleChange}
                 required
                 placeholder="City"
@@ -323,7 +414,7 @@ const EmployeeForm = () => {
             <Input
               id="presentZipCode"
               name="presentZipCode"
-              value={formData.presentZipCode}
+              value={formData.zipCode}
               onChange={handleChange}
               required
             />
@@ -356,7 +447,7 @@ const EmployeeForm = () => {
               <Input
                 id="permanentStreet1"
                 name="permanentStreet1"
-                value={formData.permanentStreet1}
+                value={formData.street1}
                 onChange={handleChange}
                 placeholder="Address line 1"
               />
@@ -365,7 +456,7 @@ const EmployeeForm = () => {
               <Input
                 id="permanentStreet2"
                 name="permanentStreet2"
-                value={formData.permanentStreet2}
+                value={formData.street2}
                 onChange={handleChange}
                 placeholder="Address line 2"
               />
@@ -375,7 +466,7 @@ const EmployeeForm = () => {
               <Input
                 id="permanentCity"
                 name="permanentCity"
-                value={formData.permanentCity}
+                value={formData.city}
                 onChange={handleChange}
                 placeholder="City"
               />
@@ -422,7 +513,7 @@ const EmployeeForm = () => {
             <Input
               id="permanentZipCode"
               name="permanentZipCode"
-              value={formData.permanentZipCode}
+              value={formData.zipCode}
               onChange={handleChange}
             />
           </div>
@@ -430,26 +521,31 @@ const EmployeeForm = () => {
       </div>
     </div>
   );
-  
+
   const renderProfessionalDetails = () => (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="space-y-2">
           <Label htmlFor="department">Department</Label>
-          <Select
-            name="department"
-            onValueChange={(value) => handleProfessionalChange({ target: { name: "department", value } })}
-          >
-            {/* ... Select options */}
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Choose Department" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="hr">HR</SelectItem>
+              <SelectItem value="engineering">Engineering</SelectItem>
+              <SelectItem value="marketing">Marketing</SelectItem>
+            </SelectContent>
           </Select>
         </div>
+
         <div className="space-y-2">
           <Label htmlFor="position">Position</Label>
           <Input
             id="position"
             name="position"
             value={formData.position}
-            onChange={handleProfessionalChange}
+            // onChange={handleProfessionalChange}
             required
           />
         </div>
@@ -460,7 +556,7 @@ const EmployeeForm = () => {
             name="startDate"
             type="date"
             value={formData.startDate}
-            onChange={handleProfessionalChange}
+            // onChange={handleProfessionalChange}
             required
           />
         </div>
@@ -471,7 +567,7 @@ const EmployeeForm = () => {
             name="salary"
             type="number"
             value={formData.salary}
-            onChange={handleProfessionalChange}
+            // onChange={handleProfessionalChange}
             required
           />
         </div>
@@ -481,8 +577,8 @@ const EmployeeForm = () => {
             id="experience"
             name="experience"
             type="number"
-            value={formData.experience}
-            onChange={handleProfessionalChange}
+            value={formData.experince}
+            // onChange={handleProfessionalChange}
           />
         </div>
         <div className="space-y-2">
@@ -490,8 +586,8 @@ const EmployeeForm = () => {
           <Input
             id="sourceOfHire"
             name="sourceOfHire"
-            value={formData.sourceOfHire}
-            onChange={handleProfessionalChange}
+            value={formData.sourceOfHiring}
+            // onChange={handleProfessionalChange}
           />
         </div>
         <div className="space-y-2">
@@ -499,8 +595,8 @@ const EmployeeForm = () => {
           <Textarea
             id="skillSet"
             name="skillSet"
-            value={formData.skillSet}
-            onChange={handleProfessionalChange}
+            value={formData.skills}
+            // onChange={handleProfessionalChange}
           />
         </div>
         <div className="space-y-2">
@@ -509,7 +605,7 @@ const EmployeeForm = () => {
             id="highestQualification"
             name="highestQualification"
             value={formData.highestQualification}
-            onChange={handleProfessionalChange}
+            // onChange={handleProfessionalChange}
           />
         </div>
         <div className="space-y-2">
@@ -518,7 +614,7 @@ const EmployeeForm = () => {
             id="additionalInformation"
             name="additionalInformation"
             value={formData.additionalInformation}
-            onChange={handleProfessionalChange}
+            // onChange={handleProfessionalChange}
           />
         </div>
         <div className="space-y-2">
@@ -527,7 +623,7 @@ const EmployeeForm = () => {
             id="location"
             name="location"
             value={formData.location}
-            onChange={handleProfessionalChange}
+            // onChange={handleProfessionalChange}
           />
         </div>
         <div className="space-y-2">
@@ -537,7 +633,7 @@ const EmployeeForm = () => {
             name="currentSalary"
             type="number"
             value={formData.currentSalary}
-            onChange={handleProfessionalChange}
+            // onChange={handleProfessionalChange}
           />
         </div>
         <div className="space-y-2">
@@ -547,13 +643,12 @@ const EmployeeForm = () => {
             name="tentativeJoiningDate"
             type="date"
             value={formData.tentativeJoiningDate}
-            onChange={handleProfessionalChange}
+            // onChange={handleProfessionalChange}
           />
         </div>
       </div>
     </div>
   );
-
 
   const renderEducationDetails = () => (
     <div className="space-y-6">

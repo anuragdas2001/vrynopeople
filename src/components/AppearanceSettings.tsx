@@ -1,15 +1,13 @@
 import { CalendarIcon, Grid, List } from "lucide-react";
 
-const AppearanceSettings = ({
+interface AppearanceSettingsProps {
+  layout: "list" | "grid" | "calendar";
+  setLayout: (layout: "list" | "grid" | "calendar") => void;
+}
+
+const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({
   layout,
   setLayout,
-  theme,
-  setTheme,
-  fontSize,
-  setFontSize,
-  density,
-  setDensity,
-  onApplyChanges,
 }) => {
   return (
     <div className="flex justify-center items-center flex-col space-y-8 py-8">
@@ -36,8 +34,11 @@ const AppearanceSettings = ({
                 value={value}
                 className="hidden"
                 checked={layout === value}
-                onChange={(e) => setLayout(e.target.value)}
+                onChange={() =>
+                  setLayout(value as "list" | "grid" | "calendar")
+                }
               />
+
               <div className="flex flex-col items-center space-y-4">
                 <Icon
                   className={`h-10 w-10 ${
